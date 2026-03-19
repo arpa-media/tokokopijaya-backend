@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\MarkingService;
 use App\Models\Customer;
 use App\Models\Discount;
 use App\Models\PaymentMethod;
@@ -480,6 +481,7 @@ class PosCheckoutService
             $serviceChargeTotal = 0;
 
             $grandTotal = max(0, $taxableBase + $taxTotal + $serviceChargeTotal);
+            $marking = app(MarkingService::class)->determineNextMarking($outletId);
 
             // 8) Payment rule
             $inputPaid = (int) ($payment['amount'] ?? 0);
@@ -543,6 +545,7 @@ class PosCheckoutService
                 'grand_total' => $grandTotal,
                 'paid_total' => $paid,
                 'change_total' => $change,
+                'marking' => $marking,
 
                 // snapshots
                 'payment_method_name' => (string) ($pm->name ?? ''),

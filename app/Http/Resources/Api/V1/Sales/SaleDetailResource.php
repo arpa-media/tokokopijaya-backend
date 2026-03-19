@@ -32,6 +32,18 @@ class SaleDetailResource extends JsonResource
             'cashier_id' => (string) $s->cashier_id,
             'cashier_name' => $s->cashier_name,
 
+            'outlet_name' => (string) optional($s->outlet)->name,
+            'outlet_name_snapshot' => (string) (optional($s->outlet)->name ?? ''),
+            'outlet_address' => (string) optional($s->outlet)->address,
+            'outlet' => $s->relationLoaded('outlet') && $s->outlet
+                ? [
+                    'id' => (string) $s->outlet->id,
+                    'name' => (string) $s->outlet->name,
+                    'address' => (string) ($s->outlet->address ?? ''),
+                    'timezone' => (string) ($s->outlet->timezone ?? config('app.timezone', 'Asia/Jakarta')),
+                ]
+                : null,
+
             'payment_method_name' => $s->payment_method_name,
             'payment_method_type' => $s->payment_method_type,
 
@@ -50,9 +62,11 @@ class SaleDetailResource extends JsonResource
             'tax_total' => (int) $s->tax_total,
 
             'service_charge_total' => (int) $s->service_charge_total,
+            'rounding_total' => (int) ($s->rounding_total ?? 0),
             'grand_total' => (int) $s->grand_total,
             'paid_total' => (int) $s->paid_total,
             'change_total' => (int) $s->change_total,
+            'marking' => (int) ($s->marking ?? 1),
 
             'note' => $s->note,
 

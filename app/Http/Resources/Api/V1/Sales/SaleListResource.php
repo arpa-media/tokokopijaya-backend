@@ -30,6 +30,7 @@ class SaleListResource extends JsonResource
             'grand_total' => (int) $s->grand_total,
             'paid_total' => (int) $s->paid_total,
             'change_total' => (int) $s->change_total,
+            'marking' => (int) ($s->marking ?? 1),
 
             'items_count' => isset($s->items_count) ? (int) $s->items_count : null,
 

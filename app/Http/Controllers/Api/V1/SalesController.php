@@ -91,7 +91,7 @@ class SalesController extends Controller
         $sale = Sale::query()
             ->when($outletId, fn ($q) => $q->where('outlet_id', $outletId))
             ->where('id', $id)
-            ->with(['items', 'payments', 'customer'])
+            ->with(['items.product.category', 'payments', 'customer'])
             ->first();
 
         if (!$sale) {
@@ -117,7 +117,7 @@ class SalesController extends Controller
         $sale->status = 'CANCELLED';
         $sale->save();
 
-        return ApiResponse::ok(new SaleDetailResource($sale->load(['items','payments','customer'])), 'Sale cancelled');
+        return ApiResponse::ok(new SaleDetailResource($sale->load(['items.product.category','payments','customer'])), 'Sale cancelled');
     }
 
     public function destroy(Request $request, string $id)

@@ -38,6 +38,18 @@ class SaleResource extends JsonResource
             'customer_id' => $s->customer_id ? (string) $s->customer_id : null,
             'customer' => $this->whenLoaded('customer', fn () => new CustomerResource($s->customer)),
 
+            'outlet_name' => (string) optional($s->outlet)->name,
+            'outlet_name_snapshot' => (string) (optional($s->outlet)->name ?? ''),
+            'outlet_address' => (string) optional($s->outlet)->address,
+            'outlet' => $s->relationLoaded('outlet') && $s->outlet
+                ? [
+                    'id' => (string) $s->outlet->id,
+                    'name' => (string) $s->outlet->name,
+                    'address' => (string) ($s->outlet->address ?? ''),
+                    'timezone' => (string) ($s->outlet->timezone ?? config('app.timezone', 'Asia/Jakarta')),
+                ]
+                : null,
+
             'subtotal' => (int) $s->subtotal,
 
             // Discount (new fields)
@@ -56,9 +68,11 @@ class SaleResource extends JsonResource
             'tax_total' => (int) $s->tax_total,
 
             'service_charge_total' => (int) $s->service_charge_total,
+            'rounding_total' => (int) ($s->rounding_total ?? 0),
             'grand_total' => (int) $s->grand_total,
             'paid_total' => (int) $s->paid_total,
             'change_total' => (int) $s->change_total,
+            'marking' => (int) ($s->marking ?? 1),
 
             'note' => $s->note,
 

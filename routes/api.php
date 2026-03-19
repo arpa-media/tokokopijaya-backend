@@ -127,12 +127,20 @@ Route::prefix('v1')->group(function () {
          */
         Route::prefix('reports')->middleware('permission:report.view')->group(function () {
             Route::get('/ledger', [ReportController::class, 'ledger']);
+            Route::get('/marking', [ReportController::class, 'marking']);
+            Route::get('/marking/config', [ReportController::class, 'markingConfig']);
+            Route::post('/marking/config', [ReportController::class, 'updateMarkingConfig']);
+            Route::post('/marking/{saleId}/toggle', [ReportController::class, 'toggleMarking']);
             Route::get('/item-sold', [ReportController::class, 'itemSold']);
             Route::get('/recent-sales', [ReportController::class, 'recentSales']);
             Route::get('/item-by-product', [ReportController::class, 'itemByProduct']);
             Route::get('/item-by-variant', [ReportController::class, 'itemByVariant']);
+            Route::get('/rounding', [ReportController::class, 'rounding']);
             Route::get('/tax', [ReportController::class, 'tax']);
             Route::get('/discount', [ReportController::class, 'discount']);
+            Route::get('/cashier-report', [ReportController::class, 'cashierReport']);
+            Route::get('/cashier-report/cashiers', [ReportController::class, 'cashierReportCashiers']);
+            Route::get('/cashier-report/{cashierId}', [ReportController::class, 'cashierReportByCashier']);
         });
 
        /**

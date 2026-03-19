@@ -115,17 +115,20 @@ class AuthSeeder extends Seeder
         ]);
 
         $cashier->syncPermissions([
-            'auth.me',
-            'dashboard.view',
-            'outlet.view',
-            'category.view',
-            'product.view',
-            'payment_method.view',
-            'discount.view',
-            'pos.checkout', 'sale.view',
-            'sale.cancel.request',
-'customer.view', 'customer.create',
-        ]);
+    'auth.me',
+    'dashboard.view',
+    'outlet.view',
+    'category.view',
+    'product.view',
+    'payment_method.view',
+    'discount.view',
+    'pos.checkout',
+    'sale.view',
+    'sale.cancel.request',
+    'customer.view',
+    'customer.create',
+    'report.view', // tambahkan ini
+]);
 
         // ------------------------------------------------------------------
         // Outlets (Patch: update OUTLET-001/002 to real branches)

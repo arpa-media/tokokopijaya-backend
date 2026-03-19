@@ -37,6 +37,11 @@ class SaleItem extends Model
         return $this->hasMany(SaleItemAddon::class, 'sale_item_id');
     }
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
     public function sale()
     {
         return $this->belongsTo(Sale::class);

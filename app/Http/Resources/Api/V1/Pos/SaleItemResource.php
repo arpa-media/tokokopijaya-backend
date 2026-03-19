@@ -19,6 +19,8 @@ class SaleItemResource extends JsonResource
             'product_name' => (string) $i->product_name,
             'variant_name' => (string) $i->variant_name,
             'category_kind' => (string) ($i->category_kind_snapshot ?? 'OTHER'),
+            'category_name' => (string) optional(optional($i->product)->category)->name,
+            'category_slug' => (string) optional(optional($i->product)->category)->slug,
             'qty' => (int) $i->qty,
             'unit_price' => (int) $i->unit_price,
             'line_total' => (int) $i->line_total,

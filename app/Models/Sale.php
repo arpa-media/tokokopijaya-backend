@@ -40,6 +40,7 @@ class Sale extends Model
         'grand_total',
         'paid_total',
         'change_total',
+        'marking',
         'payment_method_name',
         'payment_method_type',
         'note',
@@ -56,6 +57,7 @@ class Sale extends Model
         'grand_total' => 'integer',
         'paid_total' => 'integer',
         'change_total' => 'integer',
+        'marking' => 'integer',
     ];
 
     public function outlet()
