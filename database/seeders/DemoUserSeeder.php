@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Assignment;
+use App\Models\Employee;
 use App\Models\Outlet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -11,77 +13,89 @@ class DemoUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $outletSht = Outlet::query()->where('code', 'SHT')->first();
-        $outletDpn = Outlet::query()->where('code', 'DPN')->first();
+        if (!config('pos_sync.seeders.enable_demo_users')) {
+            $this->command?->warn('DemoUserSeeder skipped: POS_ENABLE_DEMO_USERS=false');
+            return;
+        }
 
-        // 1) Global admin
+        $allowDemoOutlets = (bool) config('pos_sync.seeders.enable_demo_outlets');
+        $sht = Outlet::query()->where('code', 'SHT')->first();
+        $dpn = Outlet::query()->where('code', 'DPN')->first();
+
+        if (!$allowDemoOutlets && (!$sht || !$dpn)) {
+            $this->command?->warn('DemoUserSeeder skipped: demo outlets are disabled and HR outlets SHT/DPN do not exist yet.');
+            return;
+        }
+
         $admin = User::query()->firstOrCreate(
-            ['email' => 'admin@tokokopijaya.com'],
+            ['nisj' => 'DEMO-ADMIN-001'],
             [
-                'name' => 'Admin',
-                'nisj' => '10012501000',
+                'name' => 'Demo Admin',
+                'email' => 'admin@tokokopijaya.com',
                 'password' => Hash::make('password123'),
+                'is_active' => true,
             ]
         );
-        $admin->nisj = '10012501000';
-        $admin->outlet_id = null;
-        $admin->password = Hash::make('password123');
-        $admin->save();
-        if (!$admin->hasRole('admin')) {
-            $admin->syncRoles(['admin']);
-        }
+        $admin->forceFill([
+            'name' => 'Demo Admin',
+            'email' => 'admin@tokokopijaya.com',
+            'password' => Hash::make('password123'),
+            'outlet_id' => null,
+            'is_active' => true,
+        ])->save();
+        $admin->syncRoles(['admin']);
 
+        $this->seedSquadDemoUser('DEMO-SHT-001', 'Soehat (Demo)', 'soehat@tokokopijaya.com', $sht?->id, 'cashier');
+        $this->seedSquadDemoUser('DEMO-DPN-001', 'Bali (Demo)', 'bali@tokokopijaya.com', $dpn?->id, 'cashier');
+    }
 
-        // 1) Global admin2
-        $admin2 = User::query()->firstOrCreate(
-            ['email' => 'admin2@tokokopijaya.com'],
+    private function seedSquadDemoUser(string $nisj, string $name, string $email, ?string $outletId, string $role): void
+    {
+        $user = User::query()->firstOrCreate(
+            ['nisj' => $nisj],
             [
-                'name' => 'Admin',
-                'nisj' => '10012501003',
+                'name' => $name,
+                'email' => $email,
                 'password' => Hash::make('password123'),
+                'is_active' => true,
             ]
         );
-        $admin2->nisj = '10012501003';
-        $admin2->outlet_id = null;
-        $admin2->password = Hash::make('password123');
-        $admin2->save();
-        if (!$admin2->hasRole('admin')) {
-            $admin2->syncRoles(['admin']);
-        }
 
+        $user->forceFill([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make('password123'),
+            'outlet_id' => $outletId,
+            'is_active' => true,
+        ])->save();
 
-        // 2) Soehat (Malang) user
-        $sht = User::query()->firstOrCreate(
-            ['email' => 'soehat@tokokopijaya.com'],
-            [
-                'name' => 'Soehat (SHT)',
-                'nisj' => '10012501001',
-                'password' => Hash::make('password123'),
-            ]
-        );
-        $sht->nisj = '10012501001';
-        $sht->outlet_id = $outletSht?->id; // must exist from AuthSeeder
-        $sht->password = Hash::make('password123');
-        $sht->save();
-        if (!$sht->hasRole('cashier')) {
-            $sht->syncRoles(['cashier']);
-        }
+        $user->syncRoles([$role]);
 
-        // 3) Bali (Denpasar) user
-        $dpn = User::query()->firstOrCreate(
-            ['email' => 'bali@tokokopijaya.com'],
-            [
-                'name' => 'Bali (DPN)',
-                'nisj' => '10012501002',
-                'password' => Hash::make('password123'),
-            ]
-        );
-        $dpn->nisj = '10012501002';
-        $dpn->outlet_id = $outletDpn?->id; // must exist from AuthSeeder
-        $dpn->password = Hash::make('password123');
-        $dpn->save();
-        if (!$dpn->hasRole('cashier')) {
-            $dpn->syncRoles(['cashier']);
+        $employee = Employee::query()->firstOrNew(['user_id' => $user->id]);
+        $employee->forceFill([
+            'user_id' => $user->id,
+            'nisj' => $nisj,
+            'full_name' => $name,
+            'employment_status' => 'active',
+        ])->save();
+
+        if ($outletId) {
+            $assignment = Assignment::query()->firstOrNew([
+                'employee_id' => $employee->id,
+                'outlet_id' => $outletId,
+            ]);
+            $assignment->forceFill([
+                'employee_id' => $employee->id,
+                'outlet_id' => $outletId,
+                'role_title' => ucfirst($role),
+                'start_date' => now()->toDateString(),
+                'is_primary' => true,
+                'status' => 'active',
+            ])->save();
+
+            if ($employee->assignment_id !== $assignment->id) {
+                $employee->forceFill(['assignment_id' => $assignment->id])->save();
+            }
         }
     }
 }

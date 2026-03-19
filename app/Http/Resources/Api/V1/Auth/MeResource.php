@@ -2,29 +2,52 @@
 
 namespace App\Http\Resources\Api\V1\Auth;
 
-use Illuminate\Http\Request;
+use App\Support\Auth\UserAuthContextResolver;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MeResource extends JsonResource
 {
-    /**
-     * @param Request $request
-     */
     public function toArray($request): array
     {
         $user = $this->resource;
+        $employee = $user->employee;
+        $assignment = $employee?->assignment;
+        $resolvedOutlet = $assignment?->outlet ?: $user->outlet;
+        $authContext = app(UserAuthContextResolver::class)->resolve($user);
 
         return [
             'id' => (string) $user->id,
             'name' => (string) $user->name,
             'nisj' => $user->nisj ? (string) $user->nisj : null,
             'email' => (string) $user->email,
-            'outlet' => $user->outlet ? [
-                'id' => (string) $user->outlet->id,
-                'code' => (string) $user->outlet->code,
-                'name' => (string) $user->outlet->name,
-                'timezone' => (string) ($user->outlet->timezone ?? 'Asia/Jakarta'),
+            'is_active' => (bool) ($user->is_active ?? true),
+            'outlet' => $resolvedOutlet ? [
+                'id' => (string) $resolvedOutlet->id,
+                'code' => (string) $resolvedOutlet->code,
+                'name' => (string) $resolvedOutlet->name,
+                'type' => (string) ($resolvedOutlet->type ?? 'outlet'),
+                'timezone' => (string) ($resolvedOutlet->timezone ?? 'Asia/Jakarta'),
             ] : null,
+            'employee' => $employee ? [
+                'id' => (string) $employee->id,
+                'hr_employee_id' => $employee->hr_employee_id,
+                'full_name' => $employee->full_name,
+                'nickname' => $employee->nickname,
+                'employment_status' => $employee->employment_status,
+            ] : null,
+            'assignment' => $assignment ? [
+                'id' => (string) $assignment->id,
+                'hr_assignment_id' => $assignment->hr_assignment_id,
+                'role_title' => $assignment->role_title,
+                'status' => $assignment->status,
+                'is_primary' => (bool) $assignment->is_primary,
+            ] : null,
+            'auth_context' => $authContext,
+            'legacy_bridge' => [
+                'user_outlet_id' => $user->outlet_id ? (string) $user->outlet_id : null,
+                'auth_source' => $authContext['auth_source'] ?? 'none',
+                'requires_legacy_bridge' => (bool) ($authContext['requires_legacy_bridge'] ?? false),
+            ],
             'roles' => $user->roles?->pluck('name')->values() ?? [],
             'permissions' => $user->getAllPermissions()->pluck('name')->values(),
         ];

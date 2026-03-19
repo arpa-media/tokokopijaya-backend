@@ -21,21 +21,12 @@ class ProductController extends Controller
     {
     }
 
-    /**
-     * Resolve outlet id for outlet-scoped operations.
-     *
-     * Primary source: OutletScope middleware (X-Outlet-Id header).
-     * Fallback: for admin only, allow passing outlet_id in query/body.
-     * Cashier/manager cannot spoof outlet id.
-     */
     private function resolveOutletId(Request $request): ?string
     {
         $outletId = OutletScope::id($request);
         if ($outletId) return $outletId;
 
-        $user = $request->user();
-        if (!$user || $user->outlet_id) {
-            // Non-admin users must be locked by middleware.
+        if (OutletScope::isLocked($request)) {
             return null;
         }
 
@@ -60,10 +51,8 @@ class ProductController extends Controller
 
         $paginator = $this->service->paginateForOutlet((string) ($outletId ?? ''), $filters);
 
-        $items = $paginator->items();
-
         return ApiResponse::ok([
-            'items' => ProductResource::collection($items),
+            'items' => ProductResource::collection($paginator->items()),
             'pagination' => [
                 'current_page' => $paginator->currentPage(),
                 'per_page' => $paginator->perPage(),
@@ -125,37 +114,34 @@ class ProductController extends Controller
             return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
         }
 
-        $product = Product::query()
-            ->whereKey($id)
-            ->with([
-                'outlets',
-                'variants' => function ($q) use ($outletId) {
-                    $q->where('outlet_id', $outletId)
-                      ->with(['prices' => function ($p) use ($outletId) {
-                          $p->where('outlet_id', $outletId);
-                      }]);
-                },
-            ])
-            ->first();
-
-        if (!$product) {
+        $data = $request->validated();
+        $current = Product::query()->find($id);
+        if (!$current) {
             return ApiResponse::error('Product not found', 'NOT_FOUND', 404);
         }
 
-        $data = $request->validated();
-        $oldImagePath = $product->image_path;
-
         if ($request->hasFile('image')) {
+            if (!empty($current->image_path)) {
+                Storage::disk('public')->delete($current->image_path);
+            }
             $data['image_path'] = $request->file('image')->store('products/'.(string) $outletId, 'public');
         }
 
-        $updated = $this->service->update((string) $outletId, $product, $data);
+        $product = $this->service->update((string) $id, (string) $outletId, $data);
 
-        if (!empty($oldImagePath) && array_key_exists('image_path', $data) && $oldImagePath !== $updated->image_path) {
-            Storage::disk('public')->delete($oldImagePath);
+        return ApiResponse::ok(new ProductResource($product), 'Product updated');
+    }
+
+    public function destroy(Request $request, string $id)
+    {
+        $outletId = $this->resolveOutletId($request);
+        if (!$outletId) {
+            return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
         }
 
-        return ApiResponse::ok(new ProductResource($updated), 'Product updated');
+        $this->service->delete((string) $id, (string) $outletId);
+
+        return ApiResponse::ok(null, 'Product deleted');
     }
 
     public function setOutletActive(Request $request, string $id)
@@ -169,39 +155,8 @@ class ProductController extends Controller
             'is_active' => ['required', 'boolean'],
         ]);
 
-        $product = Product::query()->whereKey($id)->first();
-        if (!$product) {
-            return ApiResponse::error('Product not found', 'NOT_FOUND', 404);
-        }
+        $product = $this->service->setOutletActive((string) $id, (string) $outletId, (bool) $validated['is_active']);
 
-        $this->service->setActiveForOutlet((string) $outletId, $product, (bool) $validated['is_active']);
-
-        // return updated product with pivot state for this outlet
-        $product->load(['outlets' => function ($q) use ($outletId) {
-            $q->where('outlets.id', $outletId);
-        }]);
-
-        return ApiResponse::ok(new ProductResource($product), 'Outlet availability updated');
-    }
-
-    public function destroy(Request $request, string $id)
-    {
-        $outletId = $this->resolveOutletId($request);
-        if (!$outletId) {
-            return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
-        }
-
-        $product = Product::query()
-            ->whereKey($id)
-            ->with(['variants'])
-            ->first();
-
-        if (!$product) {
-            return ApiResponse::error('Product not found', 'NOT_FOUND', 404);
-        }
-
-        $this->service->delete($product);
-
-        return ApiResponse::ok(null, 'Product deleted');
+        return ApiResponse::ok(new ProductResource($product), 'Product outlet status updated');
     }
 }

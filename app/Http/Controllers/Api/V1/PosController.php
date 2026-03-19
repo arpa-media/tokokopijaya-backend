@@ -21,33 +21,33 @@ class PosController extends Controller
     private function resolveOutletId(Request $request): ?string
     {
         $outletId = OutletScope::id($request);
-        if ($outletId) return $outletId;
+        if ($outletId) {
+            return $outletId;
+        }
 
-        $user = $request->user();
-        if (!$user || $user->outlet_id) {
+        if (OutletScope::isLocked($request)) {
             return null;
         }
 
         $candidate = $request->input('outlet_id');
-        if (!is_string($candidate) || trim($candidate) === '') return null;
+        if (!is_string($candidate) || trim($candidate) === '') {
+            return null;
+        }
 
         $candidate = trim($candidate);
-        if (!Outlet::query()->whereKey($candidate)->exists()) return null;
+        if (!Outlet::query()->whereKey($candidate)->exists()) {
+            return null;
+        }
 
         return $candidate;
     }
-
 
     public function discounts(Request $request)
     {
         $outletId = OutletScope::id($request);
 
         if (!$outletId) {
-            return ApiResponse::error(
-                message: 'Outlet scope is required',
-                errorCode: 'OUTLET_SCOPE_REQUIRED',
-                status: 422
-            );
+            return ApiResponse::error('Outlet scope is required', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
         $now = now();
@@ -81,17 +81,12 @@ class PosController extends Controller
         return ApiResponse::ok(['items' => $items], 'OK');
     }
 
-
     public function checkout(CheckoutRequest $request)
     {
         $outletId = $this->resolveOutletId($request);
 
         if (!$outletId) {
-            return ApiResponse::error(
-                message: 'Outlet scope is required for POS checkout',
-                errorCode: 'OUTLET_SCOPE_REQUIRED',
-                status: 422
-            );
+            return ApiResponse::error('Outlet scope is required for POS checkout', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
         $sale = $this->service->checkout($request->user(), $outletId, $request->validated());

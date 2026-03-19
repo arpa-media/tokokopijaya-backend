@@ -24,4 +24,17 @@ class OutletScope
         $request ??= request();
         return (bool) $request->attributes->get('outlet_scope_locked', false);
     }
+
+    public static function mode(?Request $request = null): string
+    {
+        $request ??= request();
+        return (string) $request->attributes->get('outlet_scope_mode', 'NONE');
+    }
+
+    public static function classification(?Request $request = null): ?string
+    {
+        $request ??= request();
+        $value = $request->attributes->get('outlet_scope_classification');
+        return is_string($value) ? $value : null;
+    }
 }

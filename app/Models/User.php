@@ -23,6 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'outlet_id',
+        'hr_user_id',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -35,11 +37,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'imported_at' => 'datetime',
+            'source_updated_at' => 'datetime',
         ];
     }
 
     public function outlet()
     {
         return $this->belongsTo(Outlet::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
     }
 }

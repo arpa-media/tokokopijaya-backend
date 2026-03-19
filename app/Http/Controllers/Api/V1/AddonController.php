@@ -9,37 +9,39 @@ use App\Http\Requests\Api\V1\Addon\UpdateAddonRequest;
 use App\Http\Resources\Api\V1\Addon\AddonResource;
 use App\Http\Resources\Api\V1\Common\ApiResponse;
 use App\Models\Addon;
+use App\Support\OutletScope;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AddonController extends Controller
 {
+    private function requireOutletId(Request $request): ?string
+    {
+        return OutletScope::id($request);
+    }
+
     public function index(ListAddonRequest $request)
     {
-        $user = $request->user();
-        if (!$user->outlet_id) {
-            return ApiResponse::error('Outlet not found for user', 'OUTLET_NOT_FOUND', 404);
+        $outletId = $this->requireOutletId($request);
+        if (!$outletId) {
+            return ApiResponse::error('Outlet scope is required', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
         $filters = $request->validated();
-        $q = $filters['q'] ?? null;
-        $isActive = array_key_exists('is_active', $filters) ? (bool) $filters['is_active'] : null;
+        $query = Addon::query()->where('outlet_id', $outletId);
 
-        $perPage = (int) ($filters['per_page'] ?? 15);
-        $sort = $filters['sort'] ?? 'name';
-        $dir = $filters['dir'] ?? 'asc';
-
-        $query = Addon::query()->where('outlet_id', $user->outlet_id);
-
-        if ($q) {
-            $query->where('name', 'like', '%'.$q.'%');
+        if (!empty($filters['q'])) {
+            $query->where('name', 'like', '%'.$filters['q'].'%');
         }
 
-        if (!is_null($isActive)) {
-            $query->where('is_active', $isActive);
+        if (array_key_exists('is_active', $filters)) {
+            $query->where('is_active', (bool) $filters['is_active']);
         }
 
-        $p = $query->orderBy($sort, $dir)->paginate($perPage)->withQueryString();
+        $p = $query
+            ->orderBy($filters['sort'] ?? 'name', $filters['dir'] ?? 'asc')
+            ->paginate((int) ($filters['per_page'] ?? 15))
+            ->withQueryString();
 
         return ApiResponse::ok([
             'items' => AddonResource::collection($p->items()),
@@ -54,18 +56,14 @@ class AddonController extends Controller
 
     public function store(StoreAddonRequest $request)
     {
-        $user = $request->user();
-        if (!$user->outlet_id) {
-            return ApiResponse::error('Outlet not found for user', 'OUTLET_NOT_FOUND', 404);
+        $outletId = $this->requireOutletId($request);
+        if (!$outletId) {
+            return ApiResponse::error('Outlet scope is required', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
         $data = $request->validated();
 
-        $exists = Addon::query()
-            ->where('outlet_id', $user->outlet_id)
-            ->where('name', $data['name'])
-            ->exists();
-
+        $exists = Addon::query()->where('outlet_id', $outletId)->where('name', $data['name'])->exists();
         if ($exists) {
             throw ValidationException::withMessages([
                 'name' => ['Addon name already exists in this outlet.'],
@@ -73,7 +71,7 @@ class AddonController extends Controller
         }
 
         $addon = Addon::query()->create([
-            'outlet_id' => $user->outlet_id,
+            'outlet_id' => $outletId,
             'name' => trim($data['name']),
             'price' => (int) $data['price'],
             'is_active' => array_key_exists('is_active', $data) ? (bool) $data['is_active'] : true,
@@ -84,16 +82,12 @@ class AddonController extends Controller
 
     public function show(Request $request, string $id)
     {
-        $user = $request->user();
-        if (!$user->outlet_id) {
-            return ApiResponse::error('Outlet not found for user', 'OUTLET_NOT_FOUND', 404);
+        $outletId = $this->requireOutletId($request);
+        if (!$outletId) {
+            return ApiResponse::error('Outlet scope is required', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
-        $addon = Addon::query()
-            ->where('outlet_id', $user->outlet_id)
-            ->where('id', $id)
-            ->first();
-
+        $addon = Addon::query()->where('outlet_id', $outletId)->where('id', $id)->first();
         if (!$addon) {
             return ApiResponse::error('Addon not found', 'NOT_FOUND', 404);
         }
@@ -103,16 +97,12 @@ class AddonController extends Controller
 
     public function update(UpdateAddonRequest $request, string $id)
     {
-        $user = $request->user();
-        if (!$user->outlet_id) {
-            return ApiResponse::error('Outlet not found for user', 'OUTLET_NOT_FOUND', 404);
+        $outletId = $this->requireOutletId($request);
+        if (!$outletId) {
+            return ApiResponse::error('Outlet scope is required', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
-        $addon = Addon::query()
-            ->where('outlet_id', $user->outlet_id)
-            ->where('id', $id)
-            ->first();
-
+        $addon = Addon::query()->where('outlet_id', $outletId)->where('id', $id)->first();
         if (!$addon) {
             return ApiResponse::error('Addon not found', 'NOT_FOUND', 404);
         }
@@ -121,7 +111,7 @@ class AddonController extends Controller
 
         if (array_key_exists('name', $data)) {
             $exists = Addon::query()
-                ->where('outlet_id', $user->outlet_id)
+                ->where('outlet_id', $outletId)
                 ->where('name', $data['name'])
                 ->where('id', '!=', $addon->id)
                 ->exists();
@@ -150,16 +140,12 @@ class AddonController extends Controller
 
     public function destroy(Request $request, string $id)
     {
-        $user = $request->user();
-        if (!$user->outlet_id) {
-            return ApiResponse::error('Outlet not found for user', 'OUTLET_NOT_FOUND', 404);
+        $outletId = $this->requireOutletId($request);
+        if (!$outletId) {
+            return ApiResponse::error('Outlet scope is required', 'OUTLET_SCOPE_REQUIRED', 422);
         }
 
-        $addon = Addon::query()
-            ->where('outlet_id', $user->outlet_id)
-            ->where('id', $id)
-            ->first();
-
+        $addon = Addon::query()->where('outlet_id', $outletId)->where('id', $id)->first();
         if (!$addon) {
             return ApiResponse::error('Addon not found', 'NOT_FOUND', 404);
         }

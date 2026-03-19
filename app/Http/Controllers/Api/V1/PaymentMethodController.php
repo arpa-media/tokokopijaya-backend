@@ -20,19 +20,12 @@ class PaymentMethodController extends Controller
     {
     }
 
-    /**
-     * Resolve outlet id for outlet-specific operations.
-     *
-     * Primary: OutletScope middleware (X-Outlet-Id header)
-     * Fallback: admin can pass outlet_id in query/body.
-     */
     private function resolveOutletId(Request $request): ?string
     {
         $outletId = OutletScope::id($request);
         if ($outletId) return $outletId;
 
-        $user = $request->user();
-        if (!$user || $user->outlet_id) {
+        if (OutletScope::isLocked($request)) {
             return null;
         }
 
@@ -84,15 +77,12 @@ class PaymentMethodController extends Controller
             return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
         }
 
-        $method = PaymentMethod::query()->whereKey($id)->with(['outlets' => function ($q) use ($outletId) {
-            $q->where('outlets.id', $outletId);
-        }])->first();
-
+        $method = PaymentMethod::query()->whereKey($id)->first();
         if (!$method) {
             return ApiResponse::error('Payment method not found', 'NOT_FOUND', 404);
         }
 
-        return ApiResponse::ok(new PaymentMethodResource($method), 'OK');
+        return ApiResponse::ok(new PaymentMethodResource($method->load(['outlets'])), 'OK');
     }
 
     public function update(UpdatePaymentMethodRequest $request, string $id)
@@ -102,41 +92,9 @@ class PaymentMethodController extends Controller
             return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
         }
 
-        $method = PaymentMethod::query()->whereKey($id)->first();
+        $method = $this->service->update((string) $id, (string) $outletId, $request->validated());
 
-        if (!$method) {
-            return ApiResponse::error('Payment method not found', 'NOT_FOUND', 404);
-        }
-
-        $updated = $this->service->update((string) $outletId, $method, $request->validated());
-
-        return ApiResponse::ok(new PaymentMethodResource($updated), 'Payment method updated');
-    }
-
-    public function setOutletActive(Request $request, string $id)
-    {
-        $outletId = $this->resolveOutletId($request);
-        if (!$outletId) {
-            return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
-        }
-
-        $validated = $request->validate([
-            'is_active' => ['required', 'boolean'],
-        ]);
-
-        $method = PaymentMethod::query()->whereKey($id)->first();
-        if (!$method) {
-            return ApiResponse::error('Payment method not found', 'NOT_FOUND', 404);
-        }
-
-        $this->service->setActiveForOutlet((string) $outletId, $method, (bool) $validated['is_active']);
-
-        // return updated method with pivot for this outlet
-        $method->load(['outlets' => function ($q) use ($outletId) {
-            $q->where('outlets.id', $outletId);
-        }]);
-
-        return ApiResponse::ok(new PaymentMethodResource($method), 'Outlet availability updated');
+        return ApiResponse::ok(new PaymentMethodResource($method), 'Payment method updated');
     }
 
     public function destroy(Request $request, string $id)
@@ -146,13 +104,7 @@ class PaymentMethodController extends Controller
             return ApiResponse::error('Please select an outlet', 'OUTLET_REQUIRED', 422);
         }
 
-        $method = PaymentMethod::query()->whereKey($id)->first();
-
-        if (!$method) {
-            return ApiResponse::error('Payment method not found', 'NOT_FOUND', 404);
-        }
-
-        $this->service->delete($method);
+        $this->service->delete((string) $id, (string) $outletId);
 
         return ApiResponse::ok(null, 'Payment method deleted');
     }
