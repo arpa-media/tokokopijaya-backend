@@ -1,0 +1,636 @@
+{
+    "write_mode": true,
+    "actions": [
+        {
+            "key": "view",
+            "column": "can_view",
+            "label": "View",
+            "runtime_ability_suffix": "view",
+            "is_default": true
+        },
+        {
+            "key": "create",
+            "column": "can_create",
+            "label": "Create",
+            "runtime_ability_suffix": "create",
+            "is_default": true
+        },
+        {
+            "key": "edit",
+            "column": "can_edit",
+            "label": "Edit",
+            "runtime_ability_suffix": "update",
+            "is_default": true
+        },
+        {
+            "key": "delete",
+            "column": "can_delete",
+            "label": "Delete",
+            "runtime_ability_suffix": "delete",
+            "is_default": true
+        },
+        {
+            "key": "approve",
+            "column": "can_approve",
+            "label": "Approve",
+            "runtime_ability_suffix": "approve",
+            "is_default": false
+        },
+        {
+            "key": "post",
+            "column": "can_post",
+            "label": "Post",
+            "runtime_ability_suffix": "post",
+            "is_default": false
+        },
+        {
+            "key": "settle",
+            "column": "can_settle",
+            "label": "Settle",
+            "runtime_ability_suffix": "settle",
+            "is_default": false
+        },
+        {
+            "key": "receive",
+            "column": "can_receive",
+            "label": "Receive",
+            "runtime_ability_suffix": "receive",
+            "is_default": false
+        }
+    ],
+    "legacy_aliases": {
+        "PORTAL_SALES_FINANCE_SALES": "PORTAL_SALES_SALES",
+        "PORTAL_SALES_FINANCE_REPORT": "PORTAL_SALES_REPORT",
+        "PORTAL_SALES_FINANCE_CANCEL_BILL": "PORTAL_SALES_CANCEL_BILL",
+        "PORTAL_SALES_OUTLET_PRODUCT": "PORTAL_SALES_PRODUCT",
+        "PORTAL_SALES_OUTLET_PAYMENT_METHOD": "PORTAL_SALES_PAYMENT_METHOD",
+        "PORTAL_SALES_OUTLET_DISCOUNT": "PORTAL_SALES_DISCOUNT",
+        "PORTAL_SALES_OUTLET_TAXES": "PORTAL_SALES_TAXES",
+        "PORTAL_FINANCE_JOURNAL_POSTING_RULE": "PORTAL_FINANCE_JOURNAL_POSTING_RULES"
+    },
+    "portals": [
+        {
+            "code": "SALES",
+            "name": "Sales",
+            "exists": true,
+            "before": {
+                "slug": "sales",
+                "name": "Sales",
+                "sort_order": 10,
+                "is_active": true
+            },
+            "after": {
+                "slug": "sales",
+                "name": "Sales",
+                "sort_order": 10,
+                "is_active": true
+            }
+        },
+        {
+            "code": "HUMAN_RESOURCE",
+            "name": "Human Resource",
+            "exists": true,
+            "before": {
+                "slug": "human-resource",
+                "name": "Human Resource",
+                "sort_order": 40,
+                "is_active": true
+            },
+            "after": {
+                "slug": "human-resource",
+                "name": "Human Resource",
+                "sort_order": 20,
+                "is_active": true
+            }
+        },
+        {
+            "code": "INVENTORY",
+            "name": "Inventory",
+            "exists": true,
+            "before": {
+                "slug": "inventory",
+                "name": "Inventory",
+                "sort_order": 50,
+                "is_active": true
+            },
+            "after": {
+                "slug": "inventory",
+                "name": "Inventory",
+                "sort_order": 30,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PURCHASING",
+            "name": "Purchasing",
+            "exists": true,
+            "before": {
+                "slug": "purchasing",
+                "name": "Purchasing",
+                "sort_order": 80,
+                "is_active": true
+            },
+            "after": {
+                "slug": "purchasing",
+                "name": "Purchasing",
+                "sort_order": 40,
+                "is_active": true
+            }
+        },
+        {
+            "code": "FINANCE",
+            "name": "Finance",
+            "exists": true,
+            "before": {
+                "slug": "finance",
+                "name": "Finance",
+                "sort_order": 20,
+                "is_active": true
+            },
+            "after": {
+                "slug": "finance",
+                "name": "Finance",
+                "sort_order": 50,
+                "is_active": true
+            }
+        },
+        {
+            "code": "BANK",
+            "name": "Bank",
+            "exists": true,
+            "before": {
+                "slug": "bank",
+                "name": "Bank",
+                "sort_order": 30,
+                "is_active": true
+            },
+            "after": {
+                "slug": "bank",
+                "name": "Bank",
+                "sort_order": 60,
+                "is_active": true
+            }
+        },
+        {
+            "code": "CUSTOMER",
+            "name": "Customer",
+            "exists": true,
+            "before": {
+                "slug": "customer",
+                "name": "Customer",
+                "sort_order": 70,
+                "is_active": true
+            },
+            "after": {
+                "slug": "customer",
+                "name": "Customer",
+                "sort_order": 70,
+                "is_active": true
+            }
+        },
+        {
+            "code": "OPERATIONAL",
+            "name": "Operational",
+            "exists": true,
+            "before": {
+                "slug": "operational",
+                "name": "Operasional",
+                "sort_order": 80,
+                "is_active": true
+            },
+            "after": {
+                "slug": "operational",
+                "name": "Operational",
+                "sort_order": 80,
+                "is_active": true
+            }
+        },
+        {
+            "code": "WAREHOUSE",
+            "name": "Warehouse",
+            "exists": true,
+            "before": {
+                "slug": "warehouse",
+                "name": "Warehouse",
+                "sort_order": 90,
+                "is_active": true
+            },
+            "after": {
+                "slug": "warehouse",
+                "name": "Warehouse",
+                "sort_order": 90,
+                "is_active": true
+            }
+        }
+    ],
+    "menus_created": [
+        {
+            "code": "PORTAL_SALES_TRANSACTION",
+            "resolved_via": "new",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": null,
+                "name": "Transaction",
+                "slug": "transaction",
+                "path": "/transactions",
+                "sort_order": 20,
+                "is_active": true
+            }
+        }
+    ],
+    "menus_updated": [
+        {
+            "code": "PORTAL_SALES_SALES",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkz5c6kymy9r2rxf1gr87qkz",
+                "name": "Sales",
+                "slug": "sales",
+                "path": "/sales",
+                "sort_order": 10,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_REPORT",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkz5c6kymy9r2rxf1gr87qkz",
+                "name": "Report",
+                "slug": "report",
+                "path": "/report",
+                "sort_order": 20,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_CANCEL_BILL",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkz5c6kymy9r2rxf1gr87qkz",
+                "name": "Cancel Bill",
+                "slug": "cancel-bill",
+                "path": "/cancel-bill",
+                "sort_order": 30,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_MASTER_DATA",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": null,
+                "name": "Master Data",
+                "slug": "master-data",
+                "path": "/master-data",
+                "sort_order": 30,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_PRODUCT",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkcz6z0a6d6dvx1scwwybd1k",
+                "name": "Product",
+                "slug": "product",
+                "path": "/products",
+                "sort_order": 10,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_PAYMENT_METHOD",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkcz6z0a6d6dvx1scwwybd1k",
+                "name": "Payment Method",
+                "slug": "payment-method",
+                "path": "/payment-methods",
+                "sort_order": 20,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_DISCOUNT",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkcz6z0a6d6dvx1scwwybd1k",
+                "name": "Discount",
+                "slug": "discount",
+                "path": "/discounts",
+                "sort_order": 30,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_TAXES",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkcz6z0a6d6dvx1scwwybd1k",
+                "name": "Taxes",
+                "slug": "taxes",
+                "path": "/taxes",
+                "sort_order": 40,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_OUTLET",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": "01kkcz6z0a6d6dvx1scwwybd1k",
+                "name": "Outlet",
+                "slug": "outlet",
+                "path": "/outlets",
+                "sort_order": 50,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_STOCK_MANAGEMENT",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": null,
+                "name": "Stock Management",
+                "slug": "stock-management",
+                "path": "/stock-management",
+                "sort_order": 40,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_SALES_SETTING",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+                "parent_id": null,
+                "name": "Setting",
+                "slug": "setting",
+                "path": "/settings",
+                "sort_order": 50,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_HUMAN_RESOURCE_DATA_USERS",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz9bjac6533nbpmm4cq",
+                "parent_id": null,
+                "name": "Data Users",
+                "slug": "data-users",
+                "path": "/user-management",
+                "sort_order": 20,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_INVENTORY_UOM",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yzbhn0gtzc6nd0dc85q",
+                "parent_id": null,
+                "name": "UOM",
+                "slug": "uom",
+                "path": "/inventory/uoms",
+                "sort_order": 20,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_INVENTORY_UNIT_AND_CONVERSION",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yzbhn0gtzc6nd0dc85q",
+                "parent_id": null,
+                "name": "Unit & Conversion",
+                "slug": "unit-and-conversion",
+                "path": "/inventory/unit-conversions",
+                "sort_order": 30,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_MANUAL_JOURNAL",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "Manual Journal",
+                "slug": "manual-journal",
+                "path": "/finance/manual-journals",
+                "sort_order": 60,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_JOURNAL_POSTING_RULES",
+            "resolved_via": "portal_slug",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "Journal Posting Rules",
+                "slug": "journal-posting-rules",
+                "path": "/finance/journal-posting-rules",
+                "sort_order": 70,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_GENERAL_LEDGER",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "General Ledger",
+                "slug": "general-ledger",
+                "path": "/finance/general-ledger",
+                "sort_order": 80,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_TRIAL_BALANCE",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "Trial Balance",
+                "slug": "trial-balance",
+                "path": "/finance/trial-balance",
+                "sort_order": 90,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_EXPENSE_REPORT",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "Expense Report",
+                "slug": "expense-report",
+                "path": "/finance/expense-reports",
+                "sort_order": 100,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_PETTY_CASH",
+            "resolved_via": "code",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "Petty Cash",
+                "slug": "petty-cash",
+                "path": "/finance/petty-cash",
+                "sort_order": 110,
+                "is_active": true
+            }
+        },
+        {
+            "code": "PORTAL_FINANCE_UNSETTLED_FUNDS",
+            "resolved_via": "portal_slug",
+            "payload": {
+                "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+                "parent_id": null,
+                "name": "Dana Belum Disetor",
+                "slug": "unsettled-funds",
+                "path": "/finance/unsettled-funds",
+                "sort_order": 120,
+                "is_active": true
+            }
+        }
+    ],
+    "menus_deprecated": [
+        {
+            "legacy_code": "PORTAL_SALES_FINANCE_SALES",
+            "canonical_code": "PORTAL_SALES_SALES",
+            "legacy_path": "/finance/sales",
+            "canonical_path": "/sales",
+            "deactivated": false
+        },
+        {
+            "legacy_code": "PORTAL_SALES_FINANCE_REPORT",
+            "canonical_code": "PORTAL_SALES_REPORT",
+            "legacy_path": "/finance/report",
+            "canonical_path": "/report",
+            "deactivated": false
+        },
+        {
+            "legacy_code": "PORTAL_SALES_FINANCE_CANCEL_BILL",
+            "canonical_code": "PORTAL_SALES_CANCEL_BILL",
+            "legacy_path": "/finance/cancel-bill",
+            "canonical_path": "/cancel-bill",
+            "deactivated": false
+        },
+        {
+            "legacy_code": "PORTAL_SALES_OUTLET_PRODUCT",
+            "canonical_code": "PORTAL_SALES_PRODUCT",
+            "legacy_path": "/products",
+            "canonical_path": "/products",
+            "deactivated": false
+        },
+        {
+            "legacy_code": "PORTAL_SALES_OUTLET_PAYMENT_METHOD",
+            "canonical_code": "PORTAL_SALES_PAYMENT_METHOD",
+            "legacy_path": "/payment-methods",
+            "canonical_path": "/payment-methods",
+            "deactivated": false
+        },
+        {
+            "legacy_code": "PORTAL_SALES_OUTLET_DISCOUNT",
+            "canonical_code": "PORTAL_SALES_DISCOUNT",
+            "legacy_path": "/discounts",
+            "canonical_path": "/discounts",
+            "deactivated": false
+        },
+        {
+            "legacy_code": "PORTAL_SALES_OUTLET_TAXES",
+            "canonical_code": "PORTAL_SALES_TAXES",
+            "legacy_path": "/taxes",
+            "canonical_path": "/taxes",
+            "deactivated": false
+        }
+    ],
+    "duplicate_paths": [
+        {
+            "path": "/discounts",
+            "count": 2,
+            "codes": [
+                "PORTAL_SALES_DISCOUNT",
+                "PORTAL_SALES_OUTLET_DISCOUNT"
+            ]
+        },
+        {
+            "path": "/finance/report",
+            "count": 2,
+            "codes": [
+                "PORTAL_FINANCE_REPORT",
+                "PORTAL_SALES_FINANCE_REPORT"
+            ]
+        },
+        {
+            "path": "/payment-methods",
+            "count": 2,
+            "codes": [
+                "PORTAL_SALES_OUTLET_PAYMENT_METHOD",
+                "PORTAL_SALES_PAYMENT_METHOD"
+            ]
+        },
+        {
+            "path": "/products",
+            "count": 2,
+            "codes": [
+                "PORTAL_SALES_OUTLET_PRODUCT",
+                "PORTAL_SALES_PRODUCT"
+            ]
+        },
+        {
+            "path": "/taxes",
+            "count": 2,
+            "codes": [
+                "PORTAL_SALES_OUTLET_TAXES",
+                "PORTAL_SALES_TAXES"
+            ]
+        }
+    ],
+    "orphan_children": [],
+    "menu_conflicts_resolved": [
+        {
+            "lookup_mode": "new",
+            "existing_code": "PORTAL_SALES_TRANSACTION",
+            "canonical_code": "PORTAL_SALES_TRANSACTION",
+            "portal_id": "01kkcz6yz042ew1wzfczfrt7te",
+            "slug": "transaction",
+            "path": "/transactions"
+        },
+        {
+            "lookup_mode": "portal_slug",
+            "existing_code": "PORTAL_FINANCE_JOURNAL_POSTING_RULE",
+            "canonical_code": "PORTAL_FINANCE_JOURNAL_POSTING_RULES",
+            "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+            "slug": "journal-posting-rules",
+            "path": "/finance/journal-posting-rules"
+        },
+        {
+            "lookup_mode": "portal_slug",
+            "existing_code": "PORTAL_FINANCE_UNSETTLED_FUND",
+            "canonical_code": "PORTAL_FINANCE_UNSETTLED_FUNDS",
+            "portal_id": "01kkcz6yz4d9n5ynnehw22ymec",
+            "slug": "unsettled-funds",
+            "path": "/finance/unsettled-funds"
+        }
+    ]
+}

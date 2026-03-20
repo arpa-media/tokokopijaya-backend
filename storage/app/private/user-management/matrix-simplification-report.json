@@ -1,0 +1,122 @@
+{
+    "generated_at": "2026-03-18T00:43:53+00:00",
+    "default_level": {
+        "id": "01kkcz6yx4bvefy6ra4azaf19q",
+        "code": "OPERATOR",
+        "name": "Operator"
+    },
+    "null_rows": {
+        "assignment_access_roles": 0,
+        "portal_permissions": 0,
+        "menu_permissions": 0
+    },
+    "existing_collisions_if_normalized": {
+        "portal_permissions": 0,
+        "menu_permissions": 0
+    },
+    "role_defaults": [
+        {
+            "id": "01kkcz6yygxf9yxs7cvcnfsz24",
+            "code": "ADMIN_DEFAULT",
+            "name": "Admin - Default",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yxpydjgtpzve20zga1j",
+            "code": "MANAGEMENT_BANK",
+            "name": "Manajemen - Bank",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yy4e100jchk0mj5ppd2",
+            "code": "MANAGEMENT_CUSTOMER",
+            "name": "Manajemen - Customer",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yxkphxqjaeqsp342e43",
+            "code": "MANAGEMENT_FINANCE",
+            "name": "Manajemen - Finance",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yxskgmn98emhkd0998f",
+            "code": "MANAGEMENT_HUMAN_RESOURCE",
+            "name": "Manajemen - Human Resource",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yxxf9c84w0hzmg32sqy",
+            "code": "MANAGEMENT_INVENTORY",
+            "name": "Manajemen - Inventory",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yy7a833zgcfd7mv2nca",
+            "code": "MANAGEMENT_OPERATIONAL",
+            "name": "Manajemen - Operasional",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yy06tf9j1ybnmqtz2vc",
+            "code": "MANAGEMENT_PURCHASING",
+            "name": "Manajemen - Purchasing",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yxg7w9rsd9h8sm1qq4b",
+            "code": "MANAGEMENT_SALES",
+            "name": "Manajemen - Sales",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yyaf3c0bwrxt0301ps1",
+            "code": "MANAGEMENT_WAREHOUSE",
+            "name": "Manajemen - Warehouse",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yyw0r9hq7dnrtj8ebkt",
+            "code": "MANAGER_OBSERVER",
+            "name": "Manajer - Observer",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yyktsvwh2j5k2rvbjkz",
+            "code": "MANAGER_OPERATIONAL",
+            "name": "Manajer - Operasional",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yyp5g1c4ecmd26mr5hx",
+            "code": "MANAGER_OWNER",
+            "name": "Manajer - Owner",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yys056d4jqbsfeefs5s",
+            "code": "MANAGER_STAKEHOLDER",
+            "name": "Manajer - Stakeholder",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yxchw9cmanahx95t8af",
+            "code": "SQUAD_DEFAULT",
+            "name": "Squad - Default",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yx9zyqbjrg0ekzd3tfg",
+            "code": "SQUAD_SPV",
+            "name": "Squad - SPV",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        },
+        {
+            "id": "01kkcz6yyd2ws5e5m1h4gdsc31",
+            "code": "WAREHOUSE_DEFAULT",
+            "name": "Warehouse - Default",
+            "default_access_level_id": "01kkcz6yx4bvefy6ra4azaf19q"
+        }
+    ],
+    "write_mode": true
+}

@@ -1,0 +1,98 @@
+{
+    "meta": {
+        "imported_at": "2026-03-08T19:31:46+00:00",
+        "snapshot_path": "C:\\xampp\\htdocs\\pos-jaya\\backend\\storage/app/exports/hr-pos-sync-20260309-020557.json",
+        "snapshot_meta": {
+            "source": "hr",
+            "version": 1,
+            "exported_at": "2026-03-09T02:05:57+07:00",
+            "app_timezone": "Asia/Jakarta",
+            "entity_counts": {
+                "outlets": 26,
+                "users": 472,
+                "employees": 472,
+                "assignments": 473
+            },
+            "validation": {
+                "is_valid": false,
+                "warnings": {
+                    "duplicate_nisj": [],
+                    "employees_without_user": [],
+                    "employees_with_missing_assignment": [],
+                    "assignments_without_employee": [],
+                    "assignments_without_outlet": [],
+                    "primary_assignment_conflicts": [
+                        {
+                            "hr_employee_id": "d6330685-054f-44d4-ba61-0a4a97dbae78",
+                            "hr_assignment_ids": [
+                                "cb81317c-125f-41b2-a217-4f498bc1fee3",
+                                "41d178e8-439a-4bd6-8376-f0654359af47"
+                            ]
+                        }
+                    ]
+                },
+                "warning_counts": {
+                    "duplicate_nisj": 0,
+                    "employees_without_user": 0,
+                    "employees_with_missing_assignment": 0,
+                    "assignments_without_employee": 0,
+                    "assignments_without_outlet": 0,
+                    "primary_assignment_conflicts": 1
+                }
+            }
+        },
+        "dry_run": false,
+        "strict": false
+    },
+    "counts": {
+        "outlets_created": 26,
+        "outlets_updated": 0,
+        "users_created": 472,
+        "users_updated": 0,
+        "employees_created": 472,
+        "employees_updated": 0,
+        "assignments_created": 473,
+        "assignments_updated": 0,
+        "employees_assignment_pointer_updated": 472,
+        "skipped_assignments": 0
+    },
+    "warnings": {
+        "snapshot": {
+            "is_valid": false,
+            "warnings": {
+                "duplicate_nisj": [],
+                "employees_without_user": [],
+                "employees_with_missing_assignment": [],
+                "assignments_without_employee": [],
+                "assignments_without_outlet": [],
+                "primary_assignment_conflicts": [
+                    {
+                        "hr_employee_id": "d6330685-054f-44d4-ba61-0a4a97dbae78",
+                        "hr_assignment_ids": [
+                            "cb81317c-125f-41b2-a217-4f498bc1fee3",
+                            "41d178e8-439a-4bd6-8376-f0654359af47"
+                        ]
+                    }
+                ]
+            },
+            "warning_counts": {
+                "duplicate_nisj": 0,
+                "employees_without_user": 0,
+                "employees_with_missing_assignment": 0,
+                "assignments_without_employee": 0,
+                "assignments_without_outlet": 0,
+                "primary_assignment_conflicts": 1
+            }
+        },
+        "missing_users_for_employees": [],
+        "missing_outlets_for_assignments": [],
+        "missing_employees_for_assignments": [],
+        "primary_assignment_conflicts_resolved": [
+            {
+                "employee_id": "01kk7eybqbpdwzv2reejen0na0",
+                "selected_assignment_id": "01kk7eycd1e12tyqerk8thz9xx",
+                "active_primary_count": 2
+            }
+        ]
+    }
+}

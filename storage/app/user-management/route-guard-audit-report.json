@@ -1,0 +1,12 @@
+{
+    "generated_at": "2026-03-18T01:02:37+00:00",
+    "summary": {
+        "total_routes": 112,
+        "permission_guard_routes": 101,
+        "legacy_menu_action_routes": 0,
+        "user_management_routes": 10,
+        "unguarded_user_management_routes": 0
+    },
+    "legacy_menu_action_routes": [],
+    "unguarded_user_management_routes": []
+}

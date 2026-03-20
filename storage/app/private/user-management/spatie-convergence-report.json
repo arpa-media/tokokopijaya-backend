@@ -1,0 +1,226 @@
+{
+    "generated_at": "2026-03-18T00:53:51+00:00",
+    "write": true,
+    "guard": "web",
+    "registry_permission_count": 163,
+    "missing_registry_permissions": [
+        "sale.cancel.view",
+        "sale.cancel.create",
+        "sale.cancel.edit",
+        "sale.cancel.update",
+        "sale.cancel.delete"
+    ],
+    "sample_user_count": 10,
+    "users": [
+        {
+            "user_id": "01kk7eyab78thx36n76c7ba6zb",
+            "nisj": "10012501000",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 190,
+            "current_count": 109,
+            "missing_in_user": [
+                "dashboard.create",
+                "dashboard.edit",
+                "dashboard.update",
+                "dashboard.delete",
+                "inventory.ingredient.view",
+                "inventory.ingredient.create",
+                "inventory.ingredient.edit",
+                "inventory.ingredient.update",
+                "inventory.ingredient.delete",
+                "purchasing.supplier.view",
+                "purchasing.supplier.create",
+                "purchasing.supplier.edit",
+                "purchasing.supplier.update",
+                "purchasing.supplier.delete",
+                "user_management.create",
+                "user_management.delete",
+                "purchasing.purchase_request.view",
+                "purchasing.purchase_request.create",
+                "purchasing.purchase_request.edit",
+                "purchasing.purchase_request.update",
+                "purchasing.purchase_request.delete",
+                "report.create",
+                "report.edit",
+                "report.update",
+                "report.delete",
+                "inventory.uom.view",
+                "inventory.uom.create",
+                "inventory.uom.edit",
+                "inventory.uom.update",
+                "inventory.uom.delete",
+                "sale.cancel.view",
+                "sale.cancel.create",
+                "sale.cancel.edit",
+                "sale.cancel.update",
+                "sale.cancel.delete",
+                "purchasing.purchase_order.view",
+                "purchasing.purchase_order.create",
+                "purchasing.purchase_order.edit",
+                "purchasing.purchase_order.update",
+                "purchasing.purchase_order.delete",
+                "inventory.bom.view",
+                "inventory.bom.create",
+                "inventory.bom.edit",
+                "inventory.bom.update",
+                "inventory.bom.delete",
+                "purchasing.goods_receipt.view",
+                "purchasing.goods_receipt.create",
+                "purchasing.goods_receipt.edit",
+                "purchasing.goods_receipt.update",
+                "purchasing.goods_receipt.delete",
+                "finance.journal_entry.create",
+                "finance.journal_entry.edit",
+                "finance.journal_entry.update",
+                "finance.journal_entry.delete",
+                "outlet.create",
+                "outlet.delete",
+                "inventory.stock_batch.view",
+                "inventory.stock_batch.create",
+                "inventory.stock_batch.edit",
+                "inventory.stock_batch.update",
+                "inventory.stock_batch.delete",
+                "inventory.stock_movement.view",
+                "inventory.stock_movement.create",
+                "inventory.stock_movement.edit",
+                "inventory.stock_movement.update",
+                "inventory.stock_movement.delete",
+                "inventory.stock_request.view",
+                "inventory.stock_request.create",
+                "inventory.stock_request.edit",
+                "inventory.stock_request.update",
+                "inventory.stock_request.delete",
+                "finance.general_ledger.create",
+                "finance.general_ledger.edit",
+                "finance.general_ledger.update",
+                "finance.general_ledger.delete",
+                "finance.trial_balance.create",
+                "finance.trial_balance.edit",
+                "finance.trial_balance.update",
+                "finance.trial_balance.delete",
+                "finance.unsettled_fund.create",
+                "finance.unsettled_fund.edit",
+                "finance.unsettled_fund.update",
+                "finance.unsettled_fund.delete"
+            ],
+            "extra_in_user": [
+                "customer.view",
+                "customer.create"
+            ]
+        },
+        {
+            "user_id": "01kk7eyab9smpwz1z8616wwmea",
+            "nisj": "10012501013",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabd10j212k7dqamz009",
+            "nisj": "10012501008",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabfdyrww1h2yezcd35g",
+            "nisj": "10012501012",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 1,
+            "missing_in_user": [
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabhhds0yv0p9e4fnqnp",
+            "nisj": "10012501006",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 2,
+            "missing_in_user": [],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabkhxsh8wvaeykq9h66",
+            "nisj": "10012501034",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabnar0159edqneevn37",
+            "nisj": "10012501038",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabqg98n2vz1vnj4b1xp",
+            "nisj": "10012501026",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabstvp57p5381sayebs",
+            "nisj": "10012501023",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        },
+        {
+            "user_id": "01kk7eyabtg2byvw45r306a8yv",
+            "nisj": "10012501025",
+            "name": "",
+            "matrix_source": "assignment_access_role",
+            "compiled_count": 2,
+            "current_count": 0,
+            "missing_in_user": [
+                "auth.me",
+                "backoffice.access"
+            ],
+            "extra_in_user": []
+        }
+    ]
+}
